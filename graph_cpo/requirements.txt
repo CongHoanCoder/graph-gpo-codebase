@@ -1,0 +1,20 @@
+# Graph-CPO implementation dependencies (dev-scale defaults).
+# For the full-scale run (Qwen3-32B), see configs/paper_qwen32b.yaml — same code,
+# only the config changes (plus enough GPU memory / FSDP or 8-bit Adam).
+torch>=2.3.0
+transformers>=4.51.0
+pillow>=10.0.0            # required by transformers>=5 import chain
+peft>=0.11.0
+accelerate>=0.30.0
+bitsandbytes>=0.43.0        # 8-bit Adam (full-scale setting); optional on CPU
+datasets>=2.19.0
+numpy>=1.26
+pyyaml>=6.0
+networkx>=3.2               # DAG ops / cycle removal
+tqdm>=4.66
+wandb>=0.17                 # optional; trainer no-ops if unavailable
+nltk>=3.8
+sacrebleu>=2.4
+# Optional accelerators — code falls back gracefully if missing:
+# vllm>=0.5.0               # fast rollout engine for large models
+# bert-score>=0.3.13        # Targeted metric in Protocol A

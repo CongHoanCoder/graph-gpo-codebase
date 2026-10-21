@@ -1,0 +1,80 @@
+# Graph-CPO — development config (small model, 1 small GPU or CPU).
+# Everything mirrors the full-scale hyperparameters except model size / batch scale.
+experiment_name: graph_cpo_dev
+seed: 42
+output_dir: runs/dev
+
+model:
+  backbone: Qwen/Qwen2.5-0.5B-Instruct
+  tokenizer: Qwen/Qwen2.5-0.5B-Instruct
+  lora:
+    enabled: true
+    r: 8
+    alpha: 16
+    dropout: 0.05
+    target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  gradient_checkpointing: false
+  dtype: float32            # float16/bfloat16 for real runs
+
+sdg:
+  tagger_model: bert-base-uncased
+  rel_classifier_hidden: 256
+  gnn:
+    layers: 2
+    hidden: 128
+    num_relations: 6
+  prefix_dim: 128
+  silver_dir: data/sdg/silver
+  graph_cache: graphs/
+  min_edge_conf: 0.3
+
+planning:
+  # Frontier node selection weights
+  lambda_g: 0.4
+  lambda_d: 0.3
+  lambda_c: 0.2
+  lambda_r: 0.1
+  max_questions: 5          # horizon H
+  sim_threshold: 0.75       # tau_sim
+  nli_threshold: 0.6        # tau_nli
+  teacher_dir: data/teachers
+
+rewards:
+  encoder: sentence-transformers/all-MiniLM-L6-v2   # frozen Enc(·) shared space
+  rel_space: text           # text | gnn_projected
+  nli_model: cross-encoder/nli-deberta-base         # full-scale: microsoft/deberta-v3-large-mnli
+  eta: 0.5                  # contrastive penalty
+
+training:
+  sft:
+    lr: 2.0e-5
+    batch_size: 2
+    grad_accum: 2
+    warmup_steps: 20
+    epochs: 1
+  rl:
+    lr: 1.0e-5
+    epochs: 2
+    rollouts_per_prompt: 4  # full-scale M = 8
+    kl_beta: 0.01
+    clip_eps: 0.2
+    curriculum_lambda: 0.01
+    omega_min: 0.1
+    omega_max: 0.8
+    alpha0: 0.8
+    alpha_min: 0.05
+    alpha_lambda: 0.01
+    batch_prompts: 4
+    adv_eps: 1.0e-8
+  rollout_engine: hf        # hf | vllm
+  valid_every_epochs: 1
+  max_new_tokens: 96
+
+eval:
+  solver_backbone: Qwen/Qwen2.5-0.5B-Instruct
+  solver_max_tokens: 512
+  solver_timeout_s: 60
+  num_decoding_runs: 2      # full-scale: 16
+  protocol_b_seeds: 50      # full-scale: 1000 seed MWPs
+  protocol_b_variants: 2    # full-scale: 3-5
+  benchmarks: ["gsm8k"]

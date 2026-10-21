@@ -1,0 +1,79 @@
+# Graph-CPO — full-scale config (all main hyperparameters, 4x A100-40GB).
+# Requires 4x A100-40GB. Set model.dtype: bfloat16 and training.rollout_engine: vllm for speed.
+experiment_name: graph_cpo_qwen32b
+seed: 42
+output_dir: runs/paper
+
+model:
+  backbone: Qwen/Qwen3-32B
+  tokenizer: Qwen/Qwen3-32B
+  lora:
+    enabled: true
+    r: 64
+    alpha: 128
+    dropout: 0.05
+    target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  gradient_checkpointing: true
+  dtype: bfloat16
+
+sdg:
+  tagger_model: bert-base-uncased
+  rel_classifier_hidden: 768
+  gnn:
+    layers: 3
+    hidden: 768
+    num_relations: 6
+  prefix_dim: 1024
+  silver_dir: data/sdg/silver      # 12,000 silver-labeled problems (GSM8K + MathQA)
+  graph_cache: graphs/             # graphs built offline and cached
+  min_edge_conf: 0.3
+
+planning:
+  lambda_g: 0.4
+  lambda_d: 0.3
+  lambda_c: 0.2
+  lambda_r: 0.1
+  max_questions: 5
+  sim_threshold: 0.75
+  nli_threshold: 0.6
+  teacher_dir: data/teachers       # 8,000 teacher Socratic sequences
+
+rewards:
+  encoder: sentence-transformers/all-MiniLM-L6-v2
+  rel_space: text
+  nli_model: microsoft/deberta-v3-large-mnli   # architecturally distinct NLI judge
+  eta: 0.5
+
+training:
+  sft:
+    lr: 2.0e-5
+    batch_size: 16                 # per GPU
+    grad_accum: 4
+    warmup_steps: 500
+    epochs: 3
+  rl:
+    lr: 1.0e-5
+    epochs: 50
+    rollouts_per_prompt: 8         # M
+    kl_beta: 0.01
+    clip_eps: 0.2
+    curriculum_lambda: 0.01
+    omega_min: 0.1
+    omega_max: 0.8
+    alpha0: 0.8
+    alpha_min: 0.05
+    alpha_lambda: 0.01
+    batch_prompts: 8
+    adv_eps: 1.0e-8
+  rollout_engine: vllm
+  valid_every_epochs: 1
+  max_new_tokens: 96
+
+eval:
+  solver_backbone: Qwen/Qwen3-32B
+  solver_max_tokens: 4096          # 4,096-token limit (Protocol A)
+  solver_timeout_s: 300            # 300-second timeout (Protocol A)
+  num_decoding_runs: 16
+  protocol_b_seeds: 1000
+  protocol_b_variants: 3           # 3-5 variants per seed
+  benchmarks: ["gsm8k", "mathqa", "olympiad", "aime24"]

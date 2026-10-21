@@ -1,0 +1,40 @@
+{
+  "num_problems": 2,
+  "success_treatment": 0.0,
+  "success_control": 1.0,
+  "success_random": 0.5,
+  "purpose_orientation": 0.49740634858608246,
+  "targeted": 0.3537787244366192,
+  "per_problem": [
+    {
+      "id": "demo0",
+      "questions": [
+        "Natalia sold clips to 48 of her friends; Intent: identify-quantity.\nQuestion: Identify the number of clips that Natalia sold in April and May?\nPrevious sub-question:\n(none)\nPlan: Target: Natalia sold clips to 48 of her friends; Intent: identify-quantity.\nS",
+        "Identify the number of clips that Natalia sold in April and May?\nPrevious sub-question:\n(15)\nPlan: Target: Natalia sold clips to 48 of her friends; Intent: identify-quantity; Prerequisites: none; Local relation: Op(+): 48+24; Ask exactly",
+        "Identify the number of clips that Natalia sold in April and May?\nS\n2. Identify the number of clips that Natalia sold to 48 friends in June and July.\nPlan: Target: Natalia sold clips to 48 friends; Intent: identify-quantity; Prerequisites: none; Local relation",
+        "Ask exactly two Socratic questions now. Ask now.\nPlan: Target: Natalia sold clips to 48 of her friends; Intent: identify-quantity; Prerequisites: none; Local relation: Op(+): 48+24; ask exactly one Socratic question that asks now.\nS\n1",
+        "Ask now.\nPlan: Target: Natalia sold clips to 48 of her friends; Intent: identify-quantity; Prerequisites: none; Local relation: Op(/): 48/2; ask exactly one Socratic question that asks now. Ask\nNext sub-question:\nS\n1\nPlan:"
+      ],
+      "solved_treatment": false,
+      "solved_control": true,
+      "solved_random": true,
+      "purpose_orientation": 0.21595247387886046,
+      "targeted": 0.3564215964215964
+    },
+    {
+      "id": "demo1",
+      "questions": [
+        "What did Weng do yesterday?\nPrevious sub-questions: none; Plan: Target:ting. Yesterday, she just did 50 minutes of bab? Describe her answer.\nWeng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of bab? How much did she",
+        "What did Weng just do yesterday?\nPrevious sub-questions: none; Local relation: O(*): 50;\n babysitting. Socratic question: Now? what did Weng exactly without directly revealing the answer.\nPrevious sub-questions: none; Plan: Target:ting. Yesterday, she just did",
+        "What does Weng just\nAnswer: no directly revealing the answer.\nPrevious sub-questions: none; Local relation: Op(*): 0.2*50; babysitting; Avoid: nothing. Ask exactly one what did Weng just?\nPrevious sub-questions: none; Plan: Target:ting.",
+        "What did Weng just? Ask exactly one Socratic sub-question: what did Weng just?\nPrevious sub-questions: none; Local relation: Op(*): 0.2*50; babysitting; Avoid: nothing. Ask exactly one Socratic question that helps derive the target from babysitting.\nS",
+        "What did Weng just?\nPrevious sub-questions: none; Local relation: Op(*): 0.2*50; babysitting; Avoid: nothing. Ask exactly one Socratic question that helps derive the target without directly revealing the answer.\nprevious sub-questions: none; Local relation: Op(*):"
+      ],
+      "solved_treatment": false,
+      "solved_control": true,
+      "solved_random": false,
+      "purpose_orientation": 0.7788602232933044,
+      "targeted": 0.3511358524516419
+    }
+  ]
+}
