@@ -16,17 +16,17 @@ and optimizes the question policy with a multi-objective RL method that combines
 
 ## Demos
 
-Demos of **Socratic MathEasy**, the application we are building on top of Graph-CPO:
+Demos of **Socratic MathEasy**, the application we are building on top of Graph-CPO.
 
-| Socratic tutoring session | Performance & engagement analytics |
-|---|---|
-| ![Socratic MathBuddy tutoring session guiding a student through a word problem](demos/Demo_Socratic_Math.gif) | ![Performance and engagement analytics dashboards](demos/Performance_&_Engagement.gif) |
+**Socratic tutoring session** — the tutor guides a student through a multi-step math
+word problem one sub-question at a time:
 
-- [`Demo_Socratic_Math.gif`](demos/Demo_Socratic_Math.gif)  — the tutor guides a
-  student through a multi-step math word problem one sub-question at a time.
-- [`Performance_&_Engagement.gif`](demos/Performance_&_Engagement.gif) —
-  analytics dashboards tracking accuracy, concept mastery, and engagement across
-  sessions.
+![Socratic MathEasy tutoring session guiding a student through a word problem, one sub-question at a time](demos/Demo_Socratic_Math.gif)
+
+**Performance & engagement analytics** — dashboards tracking accuracy, concept
+mastery, and engagement across sessions:
+
+![Performance and engagement analytics dashboards tracking accuracy, concept mastery, and engagement](demos/Performance_&_Engagement.gif)
 
 ## Repository layout
 
@@ -34,7 +34,7 @@ Demos of **Socratic MathEasy**, the application we are building on top of Graph-
 |---|---|
 | `graph_cpo/` | The complete Graph-CPO implementation (SDG construction, frontier planning, Graph-Augmented Policy with LoRA, Graph-CPO trainer, evaluation harness, tests) |
 | `data/train.jsonl`, `data/test.jsonl` | GSM8K splits (`{"question", "answer"}`) used by the pipeline |
-| `demos/` | Demo recordings of the Socratic MathBuddy application (GIF for the README, MP4/WebM sources) |
+| `demos/` | Demo recordings of the Socratic MathEasy application (GIF for the README, MP4/WebM sources) |
 | `graph_cpo/configs/dev_qwen_0.5b.yaml` | Small-model dev config (1 GPU / CPU) |
 | `graph_cpo/configs/paper_qwen32b.yaml` | Paper-faithful config (Qwen3-32B, 4×A100) |
 | `graphs/`, `runs/` | Generated artifacts (cached SDGs, checkpoints, eval outputs) |
