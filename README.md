@@ -53,7 +53,6 @@ pip install -r graph_cpo/requirements.txt
 # end-to-end smoke test on a few problems (small models, CPU-friendly)
 python -m graph_cpo.scripts.demo_end_to_end graph_cpo/configs/dev_qwen_0.5b.yaml --n_problems 5
 
-# unit + golden tests (include the worked advantage example
-# 0.42·0.86 + 0.42·0.60 + 0.16·0 ≈ 0.61)
+# unit + golden tests
 python -m unittest discover -s graph_cpo/tests -t .
 ```
